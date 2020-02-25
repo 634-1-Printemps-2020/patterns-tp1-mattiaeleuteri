@@ -60,7 +60,8 @@ public class PyRat {
     /* Retourne la liste des points qui ne peuvent pas être atteints depuis la position « pos ».
         @return la liste des points qui ne peuvent pas être atteints depuis la position « pos ». */
     private List<Point> pointsInatteignables(Point pos, Map<Point, List<Point>> laby) {
-        return;
+        List<Point> l = new ArrayList<>();
+        return l;
     }
 
     private void creationLiaison(Map<Point, List<Point>> laby){
