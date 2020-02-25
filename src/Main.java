@@ -2,8 +2,10 @@ import metier.Point;
 import metier.PyRat;
 import outils.Labyrinthe;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Main {
 
@@ -14,8 +16,9 @@ public class Main {
         final int labyHeight = Labyrinthe.getLabyHeight();
         Point position = Labyrinthe.getPosition();
         List<Point> fromages = Labyrinthe.getFromages();
+        Set<Point> setFromages = new HashSet<>();
 
-        pyrat.preprocessing(laby, labyWidth, labyHeight, position, fromages);
-        pyrat.turn(laby, labyWidth, labyHeight, position, fromages);
+        pyrat.preprocessing(laby, labyWidth, labyHeight, position, fromages, setFromages);
+        pyrat.turn(laby, labyWidth, labyHeight, position, fromages, setFromages);
     }
 }
