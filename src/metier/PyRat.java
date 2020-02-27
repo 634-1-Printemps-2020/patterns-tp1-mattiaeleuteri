@@ -5,9 +5,11 @@ import java.util.*;
 public class PyRat {
 
     private Set<Combinaison> setCombi;
+    private Map<Point, List<Point>> laby;
 
     /* Méthode appelée une seule fois permettant d'effectuer des traitements "lourds" afin d'augmenter la performace de la méthode turn. */
     public void preprocessing(Map<Point, List<Point>> laby, int labyWidth, int labyHeight, Point position, List<Point> fromages, Set<Point> setFromages) {
+        this.laby = laby;
         setFromages.addAll(fromages);
         creationLiaison(laby);
     }
@@ -42,11 +44,7 @@ public class PyRat {
     /* Indique si le joueur peut passer de la position (du Point) « de » au point « a ».
         @return true s'il y a un passage depuis  « de » vers « a ». */
     private boolean passagePossible(Point de, Point a, Map<Point, List<Point>> laby) {
-        if(laby.containsKey(de)){
-            List<Point> pointsReliesA = laby.get(de);
-            return pointsReliesA.contains(a);
-        }
-        return false;
+        return laby.get(de) != null && laby.get(de).contains(a);
     }
 
     /* Indique si le joueur peut passer de la position (du Point) « de » au point « a »,
@@ -60,8 +58,16 @@ public class PyRat {
     /* Retourne la liste des points qui ne peuvent pas être atteints depuis la position « pos ».
         @return la liste des points qui ne peuvent pas être atteints depuis la position « pos ». */
     private List<Point> pointsInatteignables(Point pos, Map<Point, List<Point>> laby) {
-        List<Point> l = new ArrayList<>();
-        return l;
+        List<Point> inatteignables = new ArrayList<>();
+        List<Point> chemin = new ArrayList<>();
+        parcoursRecursif(pos, chemin);
+        for(Point p : laby.keySet()) { if(!chemin.contains(p)) { inatteignables.add(p); } }
+        return inatteignables;
+    }
+
+    private void parcoursRecursif(Point pos, List<Point> chemin) {
+        chemin.add(pos);
+        for(Point voisin : laby.get(pos)){ if(!chemin.contains(voisin)) parcoursRecursif(voisin, chemin); }
     }
 
     private void creationLiaison(Map<Point, List<Point>> laby){
